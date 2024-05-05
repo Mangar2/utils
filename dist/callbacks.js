@@ -72,11 +72,11 @@ export class Callbacks {
         if (Array.isArray(this._supportedEvents) && !this._supportedEvents.includes(eventLowerCase)) {
             throw Error('Event not supported: ' + event);
         }
-        const callback = this._callbacks[eventLowerCase];
-        if (!Types.isAnyFunction(callback)) {
+        const func = this._callbacks[eventLowerCase];
+        if (!Types.isAnyFunction(func)) {
             throw Error('No callback registered for event: ' + event);
         }
-        return callback(...params);
+        return func(...params);
     }
     /**
      * Asynchronously invokes a callback function for an event.
@@ -92,11 +92,11 @@ export class Callbacks {
         if (Array.isArray(this._supportedEvents) && !this._supportedEvents.includes(eventLowerCase)) {
             throw Error('Event not supported: ' + event);
         }
-        const callback = this._callbacks[eventLowerCase];
-        if (!Types.isAnyFunction(callback)) {
+        const func = this._callbacks[eventLowerCase];
+        if (!Types.isAnyFunction(func)) {
             throw Error('No callback registered for event: ' + event);
         }
-        return callback ? Promise.resolve(callback(...params)) : null;
+        return func ? Promise.resolve(func(...params)) : null;
     }
 }
 //# sourceMappingURL=callbacks.js.map

@@ -9,7 +9,7 @@
  * @overview
  * provides safe type checking functions: isFunction, isArray, isObject, isNull, isUndefined, isBoolean, isNumber, isString, isDate
  */
-export type AsyncFunction = (...args: unknown[]) => Promise<any>;
+export type AsyncFunction = (...args: unknown[]) => Promise<unknown>;
 /**
  * A collection of utility functions for checking the types of values.
  *

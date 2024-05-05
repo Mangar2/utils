@@ -184,7 +184,7 @@ export class Persist {
      * @param {Object} objectToSave - The JSON object to save.
      * @returns {Promise<void>} A Promise that resolves when the object has been saved.
      */
-    async saveObjectToFile (directory: string, filenameStart: string, objectToSave: any): Promise<void> {
+    async saveObjectToFile (directory: string, filenameStart: string, objectToSave: unknown): Promise<void> {
         const timestamp = Persist.getLocalTimeAsISOString().replace(/:/g, '');
         const filePath = `${directory}/${filenameStart}${timestamp}.json`;
 
@@ -206,10 +206,10 @@ export class Persist {
      *
      * @param {string} directory - The directory to search for the file in.
      * @param {string} filenameStart - The base name of the file to search for.
-     * @returns {Object | undefined} - The object read from the file, or undefined if an error occurred.
+     * @returns {unknown | undefined} - The object read from the file, or undefined if an error occurred.
      */
-    readData (directory: string, filenameStart: string): Object | undefined {
-        let data: Object | undefined;
+    readData (directory: string, filenameStart: string): unknown | undefined {
+        let data: unknown | undefined;
         try {
             const files = fs.readdirSync(directory + '/');
             const filteredFiles = Persist.filterFiles(files, filenameStart);

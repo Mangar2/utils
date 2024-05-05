@@ -18,11 +18,11 @@
  * @param {Error|string} error - The error message or Error object to be logged.
  * @param {boolean} [debug=true] - Whether or not to print the full stack trace.
  */
-export declare function errorLog(error: any, debug?: boolean): void;
+export declare function errorLog(error: unknown, debug?: boolean): void;
 /**
  * Converts an error object to a string.
  *
  * @param {Error|string} error - The error message or Error object to be converted to a string.
  * @returns {string} The error message as a string.
  */
-export declare function errorToString(error: any): string;
+export declare function errorToString(error: unknown): string;

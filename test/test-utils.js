@@ -36,13 +36,17 @@ const tests = [
  */
 export const showResult = async () => {
     await import('./test-errorLog.js');
+    const results = [];
     for (const test of tests) {
         const testModule = await import(test);
         const testFunction = testModule.default;
         console.log(`running ${test}`);
-        const { showResult } = await testFunction();
+        const { showResult, getResult } = await testFunction();
+        results.push(getResult());
         showResult();
     }
+    const total = UnitTest.joinMultipleResults(...results);
+    console.log(!total.failed ? 'All tests passed' : 'Some tests failed');
 };
 
 /**

@@ -10,18 +10,33 @@
     ],
     "parserOptions": {
         "ecmaVersion": 2020,
-        "sourceType": "module",
-        "fixToUnknown": true
+        "sourceType": "module"
     },
     "rules": {
-        "indent": ["error", 4],
-        "semi": ["error", "always"]
+        "indent": [
+            "error",
+            4
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "@typescript-eslint/no-explicit-any": 
+        [ "error", {
+            "fixToUnknown": true
+        }]
     },
     "overrides": [
         {
-            "files": ["*.ts", "*.tsx"],
+            "files": [
+                "*.ts",
+                "*.tsx"
+            ],
             "rules": {
-                "@typescript-eslint/semi": ["error", "always"]
+                "@typescript-eslint/semi": [
+                    "error",
+                    "always"
+                ]
             }
         }
     ]

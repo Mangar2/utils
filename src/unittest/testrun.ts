@@ -31,11 +31,6 @@ type Testcase = {
     tests: Test[];
 };
 
-type PrepareCallback = (testcase: Testcase, testcasePath: string) => Promise<unknown> | unknown;
-type RunCallback = (test: Test, testObject: unknown) => Promise<unknown> | unknown;
-type ValidateCallback = (test: Test, result: unknown, testPath: string) => Promise<void> | void;
-type BreakCallback = () => Promise<void> | void;
-
 /**
  * Manages the execution of tests based on JSON files.
  */
@@ -56,7 +51,7 @@ export class TestRun {
         this.on('cleanup', () => { });
     }
 
-    on = <T extends PrepareCallback | RunCallback | ValidateCallback | BreakCallback>(event: string, callback: T) => {
+    on = (event: string, callback: (...args: unknown[]) => unknown) => {
         this._callbacks.on(event, callback);
     };
 

@@ -25,7 +25,7 @@ import { Types } from './types.js';
  */
 export class Callbacks {
     private _supportedEvents: string[] | undefined;
-    private _callbacks: { [key: string]: (...args: any[]) => any };
+    private _callbacks: { [key: string]: (...args: unknown[]) => unknown };
 
     constructor (supportedEvents: string[] | undefined = undefined) {
         this._supportedEvents = supportedEvents;
@@ -39,7 +39,7 @@ export class Callbacks {
      * @param {function} callback - The callback function.
      * @throws {Error} - Throws an error if the event is not supported or if the callback is not a function.
      */
-    on (event: string, callback: (...args: any[]) => any): void {
+    on (event: string, callback: (...args: unknown[]) => unknown): void {
         const eventLowerCase = event.toLowerCase();
         if (Array.isArray(this._supportedEvents) && !this._supportedEvents.includes(eventLowerCase)) {
             throw Error('Event not supported: ' + event);
@@ -73,16 +73,16 @@ export class Callbacks {
      * @returns {any} - Returns the result of the callback function.
      * @throws {Error} - Throws an error if the event is not supported or if the callback is not a function.
      */
-    invokeCallback (event: string, ...params: any[]): any {
+    invokeCallback (event: string, ...params: unknown[]): unknown {
         const eventLowerCase = event.toLowerCase();
         if (Array.isArray(this._supportedEvents) && !this._supportedEvents.includes(eventLowerCase)) {
             throw Error('Event not supported: ' + event);
         }
-        const callback = this._callbacks[eventLowerCase];
-        if (!Types.isAnyFunction(callback)) {
+        const func = this._callbacks[eventLowerCase];
+        if (!Types.isAnyFunction(func)) {
             throw Error('No callback registered for event: ' + event);
         }
-        return callback(...params);
+        return func(...params);
     }
 
     /**
@@ -94,15 +94,15 @@ export class Callbacks {
      * @returns {Promise<any>} - A Promise that resolves to the result of the callback, or null if no callback is registered.
      * @throws {Error} - If the event is not supported or if no callback is registered for the event.
      */
-    async invokeCallbackAsync (event: string, ...params: any[]): Promise<any> {
+    async invokeCallbackAsync (event: string, ...params: unknown[]): Promise<unknown> {
         const eventLowerCase = event.toLowerCase();
         if (Array.isArray(this._supportedEvents) && !this._supportedEvents.includes(eventLowerCase)) {
             throw Error('Event not supported: ' + event);
         }
-        const callback = this._callbacks[eventLowerCase];
-        if (!Types.isAnyFunction(callback)) {
+        const func = this._callbacks[eventLowerCase];
+        if (!Types.isAnyFunction(func)) {
             throw Error('No callback registered for event: ' + event);
         }
-        return callback ? Promise.resolve(callback(...params)) : null;
+        return func ? Promise.resolve(func(...params)) : null;
     }
 }

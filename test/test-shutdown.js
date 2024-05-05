@@ -24,17 +24,11 @@ const delay = (milliseconds) => {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 };
 
-export default () => {
-    const result = {
-        showResult: async () => {
-            console.log('Press ^C to test');
-            for (let i = 0; i < 10; i++) {
-                await delay(1000);
-                unitTest.log('.');
-            }
-            unitTest.showResult(0);
-        },
-        getResult: () => unitTest.getResult(0)
-    };
-    return result;
+export default async () => {
+    console.log('Press ^C to test');
+    for (let i = 0; i < 10; i++) {
+        await delay(1000);
+        unitTest.log('.');
+    }
+    return unitTest.getResultFunctions(0);
 };

@@ -182,7 +182,7 @@ export class Persist {
      *
      * @param {string} directory - The directory to search for the file in.
      * @param {string} filenameStart - The base name of the file to search for.
-     * @returns {Object | undefined} - The object read from the file, or undefined if an error occurred.
+     * @returns {unknown | undefined} - The object read from the file, or undefined if an error occurred.
      */
     readData(directory, filenameStart) {
         let data;

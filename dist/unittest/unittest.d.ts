@@ -20,11 +20,12 @@ export type TestResult = {
  * Defines a class for creating and managing unit tests.
  */
 export declare class UnitTest {
+    private _maxErrors;
     private _successAmount;
     private _failAmount;
     private _verbose;
     private _debug;
-    constructor(verbose?: boolean, debug?: boolean);
+    constructor(verbose?: boolean, debug?: boolean, _maxErrors?: number);
     set verbose(verbose: boolean);
     get verbose(): boolean;
     set debug(debug: boolean);
@@ -68,7 +69,7 @@ export declare class UnitTest {
      * Registers a failure with an optional message and logs it.
      * @param message Optional message to log on failure.
      */
-    fail: (message?: any) => void;
+    fail: (message?: unknown) => void;
     /**
      * Registers a success with an optional message and logs it if verbose.
      * @param message Optional message to log on success.
@@ -87,7 +88,7 @@ export declare class UnitTest {
      * @param message The message to log on success or failure.
      * @returns True if the test value is undefined, false otherwise.
      */
-    assertUndefined: (test: any, message?: string) => boolean;
+    assertUndefined: (test: unknown, message?: string) => boolean;
     /**
      * Asserts that a value is false, logs a message if it fails.
      * @param test The value to test for falseness.
@@ -118,16 +119,16 @@ export declare class UnitTest {
      * @param exact If true, validates that the result object has no extra properties.
      * @returns True if the object matches the expected structure, false otherwise.
      */
-    validateResult: (result: any, expected: any, path: string, exact?: boolean) => boolean;
+    validateResult: (result: unknown, expected: unknown, path: string, exact?: boolean) => boolean;
     /**
      * Recursively replaces substrings in an object, array, or string.
      * @param input The input value to replace substrings in.
      * @param replacements An object containing the search and replacement strings.
      * @returns The input value with the specified substrings replaced.
      */
-    replaceRec(input: any, replacements: {
+    replaceRec(input: unknown, replacements: {
         [index: string]: string;
-    }): any;
+    }): unknown;
     /**
      * Recursively validates an element against an expected specification.
      * @param toValidate Element to be validated.
@@ -210,13 +211,22 @@ export declare class UnitTest {
     */
     assertDeepEqual: (a: unknown, b: unknown, message?: string) => boolean;
     /**
+     * Asserts that two values are not deeply equal.
+     *
+     * @param a - The first value to compare.
+     * @param b - The second value to compare.
+     * @param message - An optional message to display if the assertion fails.
+     * @returns `true` if the values are not deeply equal, `false` otherwise.
+     */
+    assertDeepNotEqual: (a: unknown, b: unknown, message?: string) => boolean;
+    /**
      * Executes a function and checks for a thrown exception of a specific type.
      * @param callback The function that is expected to throw an exception.
      * @param expectedException The constructor of the expected exception type.
      * @param message Optional message to display on success or failure.
      * @returns True if the expected exception is thrown, false otherwise.
      */
-    expectException: (callback: () => void, expectedException: new (...args: any[]) => Error, message?: string) => boolean;
+    expectException: (callback: () => void, expectedException: new (...args: unknown[]) => Error, message?: string) => boolean;
     /**
      * Logs a message if verbose mode is enabled.
      * @param message The message to log.

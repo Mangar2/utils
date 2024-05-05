@@ -112,14 +112,14 @@ export declare class Persist {
      * @param {Object} objectToSave - The JSON object to save.
      * @returns {Promise<void>} A Promise that resolves when the object has been saved.
      */
-    saveObjectToFile(directory: string, filenameStart: string, objectToSave: any): Promise<void>;
+    saveObjectToFile(directory: string, filenameStart: string, objectToSave: unknown): Promise<void>;
     /**
      * Reads the latest data from a file in the given directory that matches the specified filename basis.
      *
      * @param {string} directory - The directory to search for the file in.
      * @param {string} filenameStart - The base name of the file to search for.
-     * @returns {Object | undefined} - The object read from the file, or undefined if an error occurred.
+     * @returns {unknown | undefined} - The object read from the file, or undefined if an error occurred.
      */
-    readData(directory: string, filenameStart: string): Object | undefined;
+    readData(directory: string, filenameStart: string): unknown | undefined;
 }
 export {};

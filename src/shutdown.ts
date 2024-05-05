@@ -45,7 +45,7 @@ export function shutdown (callback: () => void, forceShutdownTimeoutInMillisecon
             sigintCallback();
         }
 
-        setTimeout((err: any) => {
+        setTimeout((err: unknown) => {
             if (err) {
                 console.error(err);
             }

@@ -28,6 +28,6 @@ export { Persist } from './persist.js';
 export { readConfiguration, selectConfiguration, getEnvironment, getCommandLineParameters } from './config.js';
 export { isTimeOfDayString, stringToSeconds, timeOfDayStringToDate, dateToTimeOfDayInSeconds } from './time.js';
 
-export { deepMerge, StringIndexed } from './deep-merge.js';
+export { deepMerge } from './deep-merge.js';
 export { UnitTest, TestResult } from './unittest/unittest.js';
 export { TestRun, getDirectory } from './unittest/testrun.js';

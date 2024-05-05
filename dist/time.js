@@ -8,7 +8,6 @@
  * @copyright Copyright (c) 2024 Volker Böhm
  */
 'use strict';
-// @ts-ignore
 import { Types } from './types.js';
 /**
  * Converts a time string in format MM or HH:MM or HH:MM:SS to seconds

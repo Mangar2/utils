@@ -129,7 +129,7 @@ export class Retry {
             await delay(delayInMilliseconds);
         }
         for (let loop = 0; (loop < count); loop++) {
-            let terminateLoop = false;
+            let terminateLoop: unknown = false;
             if (!isNewestTopicCall(this._topicCalledList, topic, topicCalledNumber)) {
                 terminateLoop = true;
             } else if (Types.isFunction(callback)) {

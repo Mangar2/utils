@@ -21,7 +21,7 @@ export declare class Callbacks {
      * @param {function} callback - The callback function.
      * @throws {Error} - Throws an error if the event is not supported or if the callback is not a function.
      */
-    on(event: string, callback: (...args: any[]) => any): void;
+    on(event: string, callback: (...args: unknown[]) => unknown): void;
     /**
      * Checks if a callback is registered for a particular event.
      *
@@ -37,7 +37,7 @@ export declare class Callbacks {
      * @returns {any} - Returns the result of the callback function.
      * @throws {Error} - Throws an error if the event is not supported or if the callback is not a function.
      */
-    invokeCallback(event: string, ...params: any[]): any;
+    invokeCallback(event: string, ...params: unknown[]): unknown;
     /**
      * Asynchronously invokes a callback function for an event.
      * This is useful when the callback function is async and you want to wait for its completion.
@@ -47,5 +47,5 @@ export declare class Callbacks {
      * @returns {Promise<any>} - A Promise that resolves to the result of the callback, or null if no callback is registered.
      * @throws {Error} - If the event is not supported or if no callback is registered for the event.
      */
-    invokeCallbackAsync(event: string, ...params: any[]): Promise<any>;
+    invokeCallbackAsync(event: string, ...params: unknown[]): Promise<unknown>;
 }

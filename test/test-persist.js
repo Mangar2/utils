@@ -75,7 +75,7 @@ async function testPersist () {
     readJSON = persist.readData('.', 'test');
     unitTest.assertDeepEqual(testData.data2, readJSON, 'newest file');
 
-    // await cleanFiles()
+    await cleanFiles();
 }
 
 export default async () => {

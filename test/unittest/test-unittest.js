@@ -11,8 +11,8 @@
 
 import { UnitTest } from '../../dist/index.js';
 
-const VERBOSE = true;
-const DEBUG = true;
+const VERBOSE = false;
+const DEBUG = false;
 const unitTest = new UnitTest(VERBOSE, DEBUG);
 
 export default () => {
@@ -54,40 +54,40 @@ export default () => {
     unitTest.assertDeepEqual({ a: 'b' }, { a: 'b' }, 'Simple object');
 
     // Different simple objects
-    unitTest.assertDeepEqual({ a: 'b' }, { a: 'c' }, 'Different simple objects');
-    unitTest.assertDeepEqual({ a: 'b' }, { b: 'c' }, 'Different simple objects');
+    unitTest.assertDeepNotEqual({ a: 'b' }, { a: 'c' }, 'Different simple objects');
+    unitTest.assertDeepNotEqual({ a: 'b' }, { b: 'c' }, 'Different simple objects');
 
     // Same nested object
     unitTest.assertDeepEqual({ a: { b: 'c' } }, { a: { b: 'c' } }, 'Nested object');
 
     // Different nested objects
-    unitTest.assertDeepEqual({ a: { b: 'c' } }, { a: { b: 'd' } }, 'Different nested objects');
-    unitTest.assertDeepEqual({ a: { b: 'c' } }, { a: { c: 'd' } }, 'Different nested objects');
-    unitTest.assertDeepEqual({ a: { b: { c: 'd' } } }, { a: { b: { c: 'e' } } }, 'Different nested objects');
+    unitTest.assertDeepNotEqual({ a: { b: 'c' } }, { a: { b: 'd' } }, 'Different nested objects');
+    unitTest.assertDeepNotEqual({ a: { b: 'c' } }, { a: { c: 'd' } }, 'Different nested objects');
+    unitTest.assertDeepNotEqual({ a: { b: { c: 'd' } } }, { a: { b: { c: 'e' } } }, 'Different nested objects');
 
     // Array with same elements
     unitTest.assertDeepEqual(['a', 'b', 'c'], ['a', 'b', 'c'], 'Array with same elements');
 
     // Array with different elements
-    unitTest.assertDeepEqual(['a', 'b', 'c'], ['a', 'b', 'd'], 'Array with different elements');
+    unitTest.assertDeepNotEqual(['a', 'b', 'c'], ['a', 'b', 'd'], 'Array with different elements');
 
     // Arrays with same nested objects
     unitTest.assertDeepEqual([{ a: 'b' }, { c: 'd' }], [{ a: 'b' }, { c: 'd' }], 'Arrays with same nested objects');
 
     // Arrays with different nested objects
-    unitTest.assertDeepEqual([{ a: 'b' }, { c: 'd' }], [{ a: 'b' }, { c: 'e' }], 'Arrays with different nested objects');
+    unitTest.assertDeepNotEqual([{ a: 'b' }, { c: 'd' }], [{ a: 'b' }, { c: 'e' }], 'Arrays with different nested objects');
 
     // Same regexp
     unitTest.assertDeepEqual(/foo/, /foo/, 'Same regexp');
 
     // Different regexp
-    unitTest.assertDeepEqual(/foo/, /bar/, 'Different regexp');
+    unitTest.assertDeepNotEqual(/foo/, /bar/, 'Different regexp');
 
     // Same date
     unitTest.assertDeepEqual(new Date(2022, 4, 10), new Date(2022, 4, 10), 'Same date');
 
     // Different date
-    unitTest.assertDeepEqual(new Date(2022, 4, 10), new Date(2022, 4, 11), 'Different date');
+    unitTest.assertDeepNotEqual(new Date(2022, 4, 10), new Date(2022, 4, 11), 'Different date');
 
     // Same Map
     const mapA = new Map();
@@ -105,7 +105,7 @@ export default () => {
     const mapD = new Map();
     mapD.set('a', 1);
     mapD.set('b', 3);
-    unitTest.assertDeepEqual(mapC, mapD, 'Different Map');
+    unitTest.assertDeepNotEqual(mapC, mapD, 'Different Map');
 
     // Same Set
     const setA = new Set([1, 2, 3]);
@@ -115,7 +115,7 @@ export default () => {
     // Different Set
     const setC = new Set([1, 2, 3]);
     const setD = new Set([1, 2, 4]);
-    unitTest.assertDeepEqual(setC, setD, 'Different Set');
+    unitTest.assertDeepNotEqual(setC, setD, 'Different Set');
 
     // Test replacing substrings in a string
     unitTest.assertEqual(
@@ -175,7 +175,7 @@ export default () => {
     // Test case 2: Objects with different properties are not equal
     const obj3 = { a: 1, b: 2 };
     const obj4 = { a: 1, c: 3 };
-    unitTest.expectException(() => unitTest.validateRec(obj3, obj4, 'objects with different properties are not equal'), String);
+    unitTest.expectException(() => unitTest.validateRec(obj3, obj4, 'objects with different properties are not equal'), Error);
 
     // Test case 3: Nested objects with identical properties are equal
     const obj5 = { a: { b: { c: 1 } } };
@@ -185,7 +185,7 @@ export default () => {
     // Test case 4: Nested objects with different properties are not equal
     const obj7 = { a: { b: { c: 1 } } };
     const obj8 = { a: { b: { d: 2 } } };
-    unitTest.expectException(() => unitTest.validateRec(obj7, obj8, 'nested objects with different properties are not equal'), String);
+    unitTest.expectException(() => unitTest.validateRec(obj7, obj8, 'nested objects with different properties are not equal'), Error);
 
     // Test case 5: Arrays with identical values are equal
     const arr1 = [1, 2, 3];
@@ -195,31 +195,31 @@ export default () => {
     // Test case 6: Arrays with different values are not equal
     const arr3 = [1, 2, 3];
     const arr4 = [1, 2, 4];
-    unitTest.expectException(() => unitTest.validateRec(arr3, arr4, 'arrays with different values are not equal'), String);
+    unitTest.expectException(() => unitTest.validateRec(arr3, arr4, 'arrays with different values are not equal'), Error);
 
     // Test case 7: Arrays with different lengths are not equal
     const arr5 = [1, 2, 3];
     const arr6 = [1, 2];
-    unitTest.expectException(() => unitTest.validateRec(arr5, arr6, 'arrays with different lengths are not equal'), String);
+    unitTest.expectException(() => unitTest.validateRec(arr5, arr6, 'arrays with different lengths are not equal'), Error);
 
     // Test case 8: Additional properties in nested objects are not allowed
     const obj9 = { a: { b: { c: 1 } } };
     const obj10 = { a: { b: { c: 1, d: 2 } } };
-    unitTest.expectException(() => unitTest.validateRec(obj9, obj10, 'additional properties in nested objects are not allowed'), String);
+    unitTest.expectException(() => unitTest.validateRec(obj9, obj10, 'additional properties in nested objects are not allowed'), Error);
 
     // Test case 9: Additional properties in arrays are allowed
     const arr7 = [1, 2, 3];
     const arr8 = [1, 2, 3, 4];
-    unitTest.expectException(() => unitTest.validateRec(arr7, arr8, 'additional properties in arrays are not allowed'), String);
+    unitTest.expectException(() => unitTest.validateRec(arr7, arr8, 'additional properties in arrays are not allowed'), Error);
 
     // Test case 10: Undefined values are not allowed
     const obj11 = { a: undefined };
     const obj12 = { a: 1 };
-    unitTest.expectException(() => unitTest.validateRec(obj11, obj12, 'undefined values are not allowed'), String);
+    unitTest.expectException(() => unitTest.validateRec(obj11, obj12, 'undefined values are not allowed'), Error);
 
     // Test case 11: Different types are not equal
     const obj13 = { a: 1 };
     const obj14 = { a: '1' };
-    unitTest.expectException(() => unitTest.validateRec(obj13, obj14, 'different types are not equal'), String);
-    return unitTest.getResultFunctions(46, 12);
+    unitTest.expectException(() => unitTest.validateRec(obj13, obj14, 'different types are not equal'), Error);
+    return unitTest.getResultFunctions(57, 1);
 };

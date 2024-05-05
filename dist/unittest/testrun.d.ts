@@ -14,15 +14,6 @@ type Test = {
     expected: unknown;
     [key: string]: unknown;
 };
-type Testcase = {
-    description: string;
-    [key: string]: unknown;
-    tests: Test[];
-};
-type PrepareCallback = (testcase: Testcase, testcasePath: string) => Promise<unknown> | unknown;
-type RunCallback = (test: Test, testObject: unknown) => Promise<unknown> | unknown;
-type ValidateCallback = (test: Test, result: unknown, testPath: string) => Promise<void> | void;
-type BreakCallback = () => Promise<void> | void;
 /**
  * Manages the execution of tests based on JSON files.
  */
@@ -33,7 +24,7 @@ export declare class TestRun {
     private _testNo;
     private _parallel;
     constructor(verbose?: boolean, parallel?: boolean);
-    on: <T extends PrepareCallback | RunCallback | ValidateCallback | BreakCallback>(event: string, callback: T) => void;
+    on: (event: string, callback: (...args: unknown[]) => unknown) => void;
     get unitTest(): UnitTest;
     get testNo(): number;
     /**

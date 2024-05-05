@@ -24,7 +24,7 @@ export class UnitTest {
     private _verbose: boolean;
     private _debug: boolean;
 
-    constructor (verbose: boolean = false, debug: boolean = false) {
+    constructor (verbose: boolean = false, debug: boolean = false, private _maxErrors: number = 99) {
         this._verbose = verbose;
         this._debug = debug;
     }
@@ -129,7 +129,7 @@ export class UnitTest {
         if (this._debug) {
             console.log(new Error().stack);
         }
-        if ((this._verbose || this._debug) && this._failAmount > 10) {
+        if ((this._verbose || this._debug) && this._failAmount > this._maxErrors) {
             console.error('Too many errors, terminating program');
             process.exit(1);
         }
@@ -463,7 +463,7 @@ export class UnitTest {
         }
 
         aKeys.forEach(key => {
-            if (!b.hasOwnProperty(key)) {
+            if (b[key] === undefined) {
                 throw Error(`${path}: missing property ${key}`);
             }
             this._deepEqualRec(a[key], b[key], `${path}.${key}`);
@@ -490,6 +490,28 @@ export class UnitTest {
             this.success(message);
         } catch (err) {
             this.fail(`${message} ${err}`);
+            result = false;
+        }
+        return result;
+    };
+
+    /**
+     * Asserts that two values are not deeply equal.
+     *
+     * @param a - The first value to compare.
+     * @param b - The second value to compare.
+     * @param message - An optional message to display if the assertion fails.
+     * @returns `true` if the values are not deeply equal, `false` otherwise.
+     */
+    assertDeepNotEqual = (a: unknown, b: unknown, message: string = ''): boolean => {
+        let result = true;
+        message = message || '';
+        try {
+            this._deepEqualRec(a, b, '');
+            assert.deepStrictEqual(a, b, message);
+            this.fail(message);
+        } catch (err) {
+            this.success(`${message} ${err}`);
             result = false;
         }
         return result;

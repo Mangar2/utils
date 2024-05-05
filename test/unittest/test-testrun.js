@@ -10,7 +10,7 @@
 
 'use strict';
 
-import { TestRun } from '../../dist/index.js';
+import { TestRun, getDirectory } from '../../dist/index.js';
 const VERBOSE = false;
 
 const testRun = new TestRun(VERBOSE);
@@ -28,4 +28,4 @@ testRun.on('run', (test, testObject) => {
     return { testObject, result: test.result };
 });
 
-export default () => testRun.run(['testrun-testcase'], __dirname, 3);
+export default () => testRun.run(['testrun-testcase'], getDirectory(import.meta.url), 3, 'js');

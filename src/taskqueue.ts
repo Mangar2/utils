@@ -30,7 +30,7 @@ import { Types } from './types.js';
  */
 class TaskQueue {
     private _delayInMilliseconds: number;
-    private _taskQueue: any[];
+    private _taskQueue: unknown[];
     private _callbacks: Callbacks;
     private _running: boolean;
 
@@ -52,7 +52,7 @@ class TaskQueue {
      * @throws {Error} If the event is not supported.
      * @throws {Error} If the callback is not a function.
      */
-    on (event: string, callback: (parameter: any) => Promise<void>): void {
+    on (event: string, callback: (parameter: unknown) => Promise<void>): void {
         this._callbacks.on(event, callback);
     }
 
@@ -80,7 +80,7 @@ class TaskQueue {
      *
      * @param {any} taskParameter - The parameter to be passed to the task function.
      */
-    addTask (taskParameter: any): void {
+    addTask (taskParameter: unknown): void {
         this._taskQueue.push(taskParameter);
         this._runTasks();
     }

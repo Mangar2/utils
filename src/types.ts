@@ -12,7 +12,7 @@
 
 'use strict';
 
-export type AsyncFunction = (...args: unknown[]) => Promise<any>;
+export type AsyncFunction = (...args: unknown[]) => Promise<unknown>;
 
 /**
  * A collection of utility functions for checking the types of values.

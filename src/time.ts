@@ -10,7 +10,6 @@
 
 'use strict';
 
-// @ts-ignore
 import { Types } from './types.js';
 
 /**

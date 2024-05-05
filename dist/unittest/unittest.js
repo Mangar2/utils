@@ -15,7 +15,8 @@ import { errorLog, Types, errorToString } from '../index.js';
  * Defines a class for creating and managing unit tests.
  */
 export class UnitTest {
-    constructor(verbose = false, debug = false) {
+    constructor(verbose = false, debug = false, _maxErrors = 99) {
+        this._maxErrors = _maxErrors;
         this._successAmount = 0;
         this._failAmount = 0;
         /**
@@ -78,7 +79,7 @@ export class UnitTest {
             if (this._debug) {
                 console.log(new Error().stack);
             }
-            if ((this._verbose || this._debug) && this._failAmount > 10) {
+            if ((this._verbose || this._debug) && this._failAmount > this._maxErrors) {
                 console.error('Too many errors, terminating program');
                 process.exit(1);
             }
@@ -179,6 +180,10 @@ export class UnitTest {
          */
         this.validateResult = (result, expected, path, exact = false) => {
             let resultStatus = true;
+            if (!Types.isObject(result) || !Types.isObject(expected)) {
+                this.fail(`${path}: result is not an object`);
+                return false;
+            }
             for (const property in expected) {
                 if (result[property] !== expected[property]) {
                     resultStatus = false;
@@ -223,22 +228,22 @@ export class UnitTest {
          * @throws Throws a description of the difference including the path to the element.
          */
         this._compareTypes = (a, b, path) => {
-            if (Types.isDate(a)) {
+            if (Types.isDate(a) && Types.isDate(b)) {
                 this._compareDates(a, b, path);
             }
-            else if (Types.isSet(a)) {
+            else if (Types.isSet(a) && Types.isSet(b)) {
                 this._compareSets(a, b, path);
             }
-            else if (Types.isMap(a)) {
+            else if (Types.isMap(a) && Types.isMap(b)) {
                 this._compareMaps(a, b, path);
             }
-            else if (Types.isArray(a)) {
+            else if (Types.isArray(a) && Types.isArray(b)) {
                 this._compareArrays(a, b, path);
             }
-            else if (Types.isRegExp(a)) {
+            else if (Types.isRegExp(a) && Types.isRegExp(b)) {
                 this._compareRegex(a, b, path);
             }
-            else if (Types.isObject(a)) {
+            else if (Types.isObject(a) && Types.isObject(b)) {
                 this._compareObjects(a, b, path);
             }
             else {
@@ -335,7 +340,7 @@ export class UnitTest {
                 throw Error(`${path}: objects have different amount of properties`);
             }
             aKeys.forEach(key => {
-                if (!b.hasOwnProperty(key)) {
+                if (b[key] === undefined) {
                     throw Error(`${path}: missing property ${key}`);
                 }
                 this._deepEqualRec(a[key], b[key], `${path}.${key}`);
@@ -361,6 +366,28 @@ export class UnitTest {
             }
             catch (err) {
                 this.fail(`${message} ${err}`);
+                result = false;
+            }
+            return result;
+        };
+        /**
+         * Asserts that two values are not deeply equal.
+         *
+         * @param a - The first value to compare.
+         * @param b - The second value to compare.
+         * @param message - An optional message to display if the assertion fails.
+         * @returns `true` if the values are not deeply equal, `false` otherwise.
+         */
+        this.assertDeepNotEqual = (a, b, message = '') => {
+            let result = true;
+            message = message || '';
+            try {
+                this._deepEqualRec(a, b, '');
+                assert.deepStrictEqual(a, b, message);
+                this.fail(message);
+            }
+            catch (err) {
+                this.success(`${message} ${err}`);
                 result = false;
             }
             return result;

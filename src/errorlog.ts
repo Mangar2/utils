@@ -21,7 +21,7 @@ import { Types } from './index.js';
  * @param {Error|string} error - The error message or Error object to be logged.
  * @param {boolean} [debug=true] - Whether or not to print the full stack trace.
  */
-export function errorLog (error: any, debug: boolean = true): void {
+export function errorLog (error: unknown, debug: boolean = true): void {
     const errorString = errorToString(error);
     console.error(`${new Date().toLocaleString()} ${errorString} `);
     if (Types.isError(error) && error.stack !== undefined && debug) {
@@ -35,7 +35,7 @@ export function errorLog (error: any, debug: boolean = true): void {
  * @param {Error|string} error - The error message or Error object to be converted to a string.
  * @returns {string} The error message as a string.
  */
-export function errorToString (error: any): string {
+export function errorToString (error: unknown): string {
     if (Types.isString(error)) {
         return error;
     } else if (Types.isError(error)) {

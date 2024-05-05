@@ -11,10 +11,6 @@
  */
 import { Types } from './types.js';
 
-export interface StringIndexed {
-    [index: string]: any;
-}
-
 /**
  * Deeply merges properties from the 'merge' object into the 'target' object,
  * but only if they aren't already present in 'target'.
@@ -26,7 +22,7 @@ export interface StringIndexed {
  * @param merge - The object whose properties will be merged.
  * @returns The 'target' object after merging.
  */
-export function deepMerge (target: StringIndexed | undefined, merge: StringIndexed): StringIndexed | undefined {
+export function deepMerge (target: unknown, merge: unknown): unknown {
     if (!Types.isObject(merge)) {
         return target;
     }
@@ -39,10 +35,10 @@ export function deepMerge (target: StringIndexed | undefined, merge: StringIndex
         return target;
     }
 
-    const result = { ...(target as StringIndexed) };
+    const result = { ...target };
 
     for (const mergeProperty in merge) {
-        const defaultValue = (merge as StringIndexed)[mergeProperty];
+        const defaultValue = merge[mergeProperty];
         const targetValue = result[mergeProperty];
         const defaultValueIsObject = Types.isObject(defaultValue);
 

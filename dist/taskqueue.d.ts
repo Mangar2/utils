@@ -36,7 +36,7 @@ declare class TaskQueue {
      * @throws {Error} If the event is not supported.
      * @throws {Error} If the callback is not a function.
      */
-    on(event: string, callback: (parameter: any) => Promise<void>): void;
+    on(event: string, callback: (parameter: unknown) => Promise<void>): void;
     /**
      * Runs the next task in the queue, with a delay between tasks.
      *
@@ -48,6 +48,6 @@ declare class TaskQueue {
      *
      * @param {any} taskParameter - The parameter to be passed to the task function.
      */
-    addTask(taskParameter: any): void;
+    addTask(taskParameter: unknown): void;
 }
 export { TaskQueue };
