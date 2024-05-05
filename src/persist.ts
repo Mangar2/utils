@@ -208,8 +208,8 @@ export class Persist {
      * @param {string} filenameStart - The base name of the file to search for.
      * @returns {unknown | undefined} - The object read from the file, or undefined if an error occurred.
      */
-    readData (directory: string, filenameStart: string): unknown | undefined {
-        let data: unknown | undefined;
+    readData (directory: string, filenameStart: string): unknown {
+        let data: unknown;
         try {
             const files = fs.readdirSync(directory + '/');
             const filteredFiles = Persist.filterFiles(files, filenameStart);

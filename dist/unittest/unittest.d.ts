@@ -36,7 +36,7 @@ export declare class UnitTest {
      * @param expectedFail The expected number of failed test cases.
      * @returns An object containing the result message and a failed status.
      */
-    getResult: (expectedSuccess: number, expectedFail?: number) => {
+    getResult(expectedSuccess: number, expectedFail?: number): {
         message: string;
         failed: boolean;
     };
@@ -45,16 +45,16 @@ export declare class UnitTest {
      * @param expectedSuccess The expected number of successful test cases.
      * @param expectedFail The expected number of failed test cases.
      */
-    showResult: (expectedSuccess: number, expectedFail?: number) => void;
+    showResult(expectedSuccess: number, expectedFail?: number): void;
     /**
      * Joins results from multiple test executions.
      * @param results A spread of result objects from various tests.
      * @returns A single joined result object.
      */
-    static joinMultipleResults: (...results: {
+    static joinMultipleResults(...results: {
         message: string;
         failed: boolean;
-    }[]) => {
+    }[]): {
         message: string;
         failed: boolean;
     };
@@ -64,38 +64,38 @@ export declare class UnitTest {
      * @param expectedFail The expected number of failed test cases.
      * @returns An object with bound result functions.
      */
-    getResultFunctions: (expectedAmount: number, expectedFail?: number) => TestResult;
+    getResultFunctions(expectedAmount: number, expectedFail?: number): TestResult;
     /**
      * Registers a failure with an optional message and logs it.
      * @param message Optional message to log on failure.
      */
-    fail: (message?: unknown) => void;
+    fail(message?: unknown): void;
     /**
      * Registers a success with an optional message and logs it if verbose.
      * @param message Optional message to log on success.
      */
-    success: (message?: string) => void;
+    success(message?: string): void;
     /**
-  * Asserts that a value is true, logs a message if it fails.
-  * @param test The value to test for truthiness.
-  * @param message The message to log on success or failure.
-  * @returns True if the test value is true, false otherwise.
-  */
-    assertTrue: (test: boolean, message?: string) => boolean;
+     * Asserts that a value is true, logs a message if it fails.
+     * @param test The value to test for truthiness.
+     * @param message The message to log on success or failure.
+     * @returns True if the test value is true, false otherwise.
+     */
+    assertTrue(test: boolean, message?: string): boolean;
     /**
      * Asserts that a value is undefined.
      * @param test The value to test.
      * @param message The message to log on success or failure.
      * @returns True if the test value is undefined, false otherwise.
      */
-    assertUndefined: (test: unknown, message?: string) => boolean;
+    assertUndefined(test: unknown, message?: string): boolean;
     /**
      * Asserts that a value is false, logs a message if it fails.
      * @param test The value to test for falseness.
      * @param message The message to log on success or failure.
      * @returns True if the test value is false, false otherwise.
      */
-    assertFalse: (test: boolean, message?: string) => boolean;
+    assertFalse(test: boolean, message?: string): boolean;
     /**
      * Asserts that two values are equal using the "===" operator.
      * @param a The first value.
@@ -103,14 +103,14 @@ export declare class UnitTest {
      * @param message The message to log on success or failure.
      * @returns True if the values are equal, false otherwise.
      */
-    assertEqual: (a: unknown, b: unknown, message?: string) => boolean;
+    assertEqual(a: unknown, b: unknown, message?: string): boolean;
     /**
      * Asserts that no exceptions are thrown when executing a callback.
      * @param callback The function to execute.
      * @param message The message to log on failure.
      * @returns True if no exception is thrown, false otherwise.
      */
-    assertNoException: (callback: () => void, message?: string) => boolean;
+    assertNoException(callback: () => void, message?: string): boolean;
     /**
      * Validates a result object against an expected object.
      * @param result The object to validate.
@@ -119,7 +119,7 @@ export declare class UnitTest {
      * @param exact If true, validates that the result object has no extra properties.
      * @returns True if the object matches the expected structure, false otherwise.
      */
-    validateResult: (result: unknown, expected: unknown, path: string, exact?: boolean) => boolean;
+    validateResult(result: unknown, expected: unknown, path: string, exact?: boolean): boolean;
     /**
      * Recursively replaces substrings in an object, array, or string.
      * @param input The input value to replace substrings in.
@@ -209,7 +209,7 @@ export declare class UnitTest {
     * @param message Optional message to display on results.
     * @returns True if objects are deeply equal, false otherwise.
     */
-    assertDeepEqual: (a: unknown, b: unknown, message?: string) => boolean;
+    assertDeepEqual(a: unknown, b: unknown, message?: string): boolean;
     /**
      * Asserts that two values are not deeply equal.
      *
@@ -218,7 +218,7 @@ export declare class UnitTest {
      * @param message - An optional message to display if the assertion fails.
      * @returns `true` if the values are not deeply equal, `false` otherwise.
      */
-    assertDeepNotEqual: (a: unknown, b: unknown, message?: string) => boolean;
+    assertDeepNotEqual(a: unknown, b: unknown, message?: string): boolean;
     /**
      * Executes a function and checks for a thrown exception of a specific type.
      * @param callback The function that is expected to throw an exception.
@@ -226,15 +226,15 @@ export declare class UnitTest {
      * @param message Optional message to display on success or failure.
      * @returns True if the expected exception is thrown, false otherwise.
      */
-    expectException: (callback: () => void, expectedException: new (...args: unknown[]) => Error, message?: string) => boolean;
+    expectException(callback: () => void, expectedException: new (...args: unknown[]) => Error, message?: string): boolean;
     /**
      * Logs a message if verbose mode is enabled.
      * @param message The message to log.
      */
-    log: (message: string) => void;
+    log(message: string): void;
     /**
      * Logs an error message or object if verbose mode is enabled.
      * @param error The error message or object to log.
      */
-    logError: (error: unknown) => void;
+    logError(error: unknown): void;
 }

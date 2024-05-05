@@ -15,7 +15,6 @@ import path from 'path';
 export const getDirectory = () => {
     const filename = fileURLToPath(import.meta.url);
     const _dirname = path.dirname(filename);
-    // const dirUrl = pathToFileURL(_dirname).href;
     return _dirname;
 };
 

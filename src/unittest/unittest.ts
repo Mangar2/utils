@@ -51,7 +51,7 @@ export class UnitTest {
      * @param expectedFail The expected number of failed test cases.
      * @returns An object containing the result message and a failed status.
      */
-    getResult = (expectedSuccess: number, expectedFail: number = 0): { message: string, failed: boolean } => {
+    getResult (expectedSuccess: number, expectedFail: number = 0): { message: string, failed: boolean } {
         let resultMsg = `success: ${this._successAmount}, failed: ${this._failAmount}`;
         let failed = false;
 
@@ -69,28 +69,28 @@ export class UnitTest {
             message: resultMsg,
             failed
         };
-    };
+    }
 
     /**
      * Displays the test result and exits the process if there are any failures.
      * @param expectedSuccess The expected number of successful test cases.
      * @param expectedFail The expected number of failed test cases.
      */
-    showResult = (expectedSuccess: number, expectedFail: number = 0): void => {
+    showResult (expectedSuccess: number, expectedFail: number = 0): void {
         const result = this.getResult(expectedSuccess, expectedFail);
         console.log(result.message);
 
         if (result.failed) {
             process.exit(1);
         }
-    };
+    }
 
     /**
      * Joins results from multiple test executions.
      * @param results A spread of result objects from various tests.
      * @returns A single joined result object.
      */
-    static joinMultipleResults = (...results: { message: string, failed: boolean }[]): { message: string, failed: boolean } => {
+    static joinMultipleResults (...results: { message: string, failed: boolean }[]): { message: string, failed: boolean } {
         let resultMsg = '';
         let failed = false;
 
@@ -103,7 +103,7 @@ export class UnitTest {
             message: resultMsg,
             failed
         };
-    };
+    }
 
     /**
      * Provides access to the result functions bound to expected amounts.
@@ -111,16 +111,18 @@ export class UnitTest {
      * @param expectedFail The expected number of failed test cases.
      * @returns An object with bound result functions.
      */
-    getResultFunctions = (expectedAmount: number, expectedFail: number = 0) : TestResult => ({
-        showResult: () => this.showResult(expectedAmount, expectedFail),
-        getResult: () => this.getResult(expectedAmount, expectedFail)
-    });
+    getResultFunctions (expectedAmount: number, expectedFail: number = 0) : TestResult {
+        return {
+            showResult: () => this.showResult(expectedAmount, expectedFail),
+            getResult: () => this.getResult(expectedAmount, expectedFail)
+        };
+    }
 
     /**
      * Registers a failure with an optional message and logs it.
      * @param message Optional message to log on failure.
      */
-    fail = (message: unknown = ''): void => {
+    fail (message: unknown = ''): void {
         const messageString = errorToString(message);
         this._failAmount++;
         if (this._verbose) {
@@ -133,26 +135,26 @@ export class UnitTest {
             console.error('Too many errors, terminating program');
             process.exit(1);
         }
-    };
+    }
 
     /**
      * Registers a success with an optional message and logs it if verbose.
      * @param message Optional message to log on success.
      */
-    success = (message: string = ''): void => {
+    success (message: string = ''): void {
         this._successAmount++;
         if (this._verbose) {
             console.log(`${this._successAmount} success: ${message}`);
         }
-    };
+    }
 
     /**
-  * Asserts that a value is true, logs a message if it fails.
-  * @param test The value to test for truthiness.
-  * @param message The message to log on success or failure.
-  * @returns True if the test value is true, false otherwise.
-  */
-    assertTrue = (test: boolean, message: string = ''): boolean => {
+     * Asserts that a value is true, logs a message if it fails.
+     * @param test The value to test for truthiness.
+     * @param message The message to log on success or failure.
+     * @returns True if the test value is true, false otherwise.
+     */
+    assertTrue (test: boolean, message: string = ''): boolean {
         const formattedMessage = message ? `${message} - ` : '';
         if (test) {
             this.success(`${formattedMessage}Value is true`);
@@ -160,7 +162,7 @@ export class UnitTest {
             this.fail(`${formattedMessage}Expected true but got false.`);
         }
         return test;
-    };
+    }
 
     /**
      * Asserts that a value is undefined.
@@ -168,9 +170,9 @@ export class UnitTest {
      * @param message The message to log on success or failure.
      * @returns True if the test value is undefined, false otherwise.
      */
-    assertUndefined = (test: unknown, message: string = ''): boolean => {
+    assertUndefined (test: unknown, message: string = ''): boolean {
         return this.assertEqual(test, undefined, message);
-    };
+    }
 
     /**
      * Asserts that a value is false, logs a message if it fails.
@@ -178,7 +180,7 @@ export class UnitTest {
      * @param message The message to log on success or failure.
      * @returns True if the test value is false, false otherwise.
      */
-    assertFalse = (test: boolean, message: string = ''): boolean => {
+    assertFalse (test: boolean, message: string = ''): boolean {
         const formattedMessage = message ? `${message} - ` : '';
         const result = !test;
         if (result) {
@@ -187,7 +189,7 @@ export class UnitTest {
             this.fail(`${formattedMessage}Expected false but got true.`);
         }
         return result;
-    };
+    }
 
     /**
      * Asserts that two values are equal using the "===" operator.
@@ -196,7 +198,7 @@ export class UnitTest {
      * @param message The message to log on success or failure.
      * @returns True if the values are equal, false otherwise.
      */
-    assertEqual = (a: unknown, b: unknown, message: string = ''): boolean => {
+    assertEqual (a: unknown, b: unknown, message: string = ''): boolean {
         const result = (a === b);
         if (result) {
             this.success(message);
@@ -204,7 +206,7 @@ export class UnitTest {
             this.fail(`Expected "${b}", but got "${a}" ${message}`);
         }
         return result;
-    };
+    }
 
     /**
      * Asserts that no exceptions are thrown when executing a callback.
@@ -212,7 +214,7 @@ export class UnitTest {
      * @param message The message to log on failure.
      * @returns True if no exception is thrown, false otherwise.
      */
-    assertNoException = (callback: () => void, message: string = ''): boolean => {
+    assertNoException (callback: () => void, message: string = ''): boolean {
         try {
             callback();
             this.success(message);
@@ -221,7 +223,7 @@ export class UnitTest {
             this.fail(`${message} ${err}`);
             return false;
         }
-    };
+    }
 
     /**
      * Validates a result object against an expected object.
@@ -231,7 +233,7 @@ export class UnitTest {
      * @param exact If true, validates that the result object has no extra properties.
      * @returns True if the object matches the expected structure, false otherwise.
      */
-    validateResult = (result: unknown, expected: unknown, path: string, exact: boolean = false): boolean => {
+    validateResult (result: unknown, expected: unknown, path: string, exact: boolean = false): boolean {
         let resultStatus = true;
         if (!Types.isObject(result) || !Types.isObject(expected)) {
             this.fail(`${path}: result is not an object`);
@@ -255,7 +257,7 @@ export class UnitTest {
             this.success(path);
         }
         return resultStatus;
-    };
+    }
 
     /**
      * Recursively replaces substrings in an object, array, or string.
@@ -331,7 +333,7 @@ export class UnitTest {
      * @param path Path to the element to compare.
      * @throws Throws a description of the difference including the path to the element.
      */
-    private _deepEqualRec = (a: unknown, b: unknown, path: string): void => {
+    private _deepEqualRec (a: unknown, b: unknown, path: string): void {
         if (a === b) {
             return;
         }
@@ -340,7 +342,7 @@ export class UnitTest {
         }
         this._compareTypes(a, b, path);
         assert.deepStrictEqual(a, b, path);
-    };
+    }
 
     /**
      * Compares two elements of the same type for equality.
@@ -349,7 +351,7 @@ export class UnitTest {
      * @param path Path to the element to compare.
      * @throws Throws a description of the difference including the path to the element.
      */
-    private _compareTypes = (a: unknown, b: unknown, path: string): void => {
+    private _compareTypes (a: unknown, b: unknown, path: string): void {
         if (Types.isDate(a) && Types.isDate(b)) {
             this._compareDates(a, b, path);
         } else if (Types.isSet(a) && Types.isSet(b)) {
@@ -365,7 +367,7 @@ export class UnitTest {
         } else {
             throw Error(`${path}: elements have different value: ${a} !== ${b} or types ${Types.getType(a)} != ${Types.getType(b)}}`);
         }
-    };
+    }
 
     /**
      * Compares two Date objects for equality.
@@ -374,11 +376,11 @@ export class UnitTest {
      * @param path Path to the Date objects to compare.
      * @throws Throws a description of the difference including the path to the element.
      */
-    private _compareDates = (a: Date, b: Date, path: string): void => {
+    private _compareDates (a: Date, b: Date, path: string): void {
         if (a.getTime() !== b.getTime()) {
             throw Error(`${path}: not both dates or dates are different`);
         }
-    };
+    }
 
     /**
      * Compares two Set objects for equality.
@@ -387,7 +389,7 @@ export class UnitTest {
      * @param path Path to the Set objects to compare.
      * @throws Throws a description of the difference including the path to the element.
      */
-    private _compareSets = (a: Set<unknown>, b: Set<unknown>, path: string): void => {
+    private _compareSets (a: Set<unknown>, b: Set<unknown>, path: string): void {
         if (a.size !== b.size) {
             throw Error(`${path}: sets have different size`);
         }
@@ -396,7 +398,7 @@ export class UnitTest {
                 throw Error(`${path}: missing element ${elem}`);
             }
         });
-    };
+    }
 
     /**
      * Compares two Map objects recursively.
@@ -405,7 +407,7 @@ export class UnitTest {
      * @param path Path to the element to compare.
      * @throws Throws a description of the difference including the path to the element.
      */
-    private _compareMaps = (a: Map<unknown, unknown>, b: Map<unknown, unknown>, path: string): void => {
+    private _compareMaps (a: Map<unknown, unknown>, b: Map<unknown, unknown>, path: string): void {
         if (a.size !== b.size) {
             throw Error(`${path}: maps have different size`);
         }
@@ -416,7 +418,7 @@ export class UnitTest {
                 this._deepEqualRec(value, b.get(key), `${path}/${key}`);
             }
         });
-    };
+    }
 
     /**
      * Compares two arrays for equality, including nested objects and arrays.
@@ -425,14 +427,14 @@ export class UnitTest {
      * @param path Path to the array to compare.
      * @throws Throws a description of the difference including the path to the array.
      */
-    private _compareArrays = (a: Array<unknown>, b: Array<unknown>, path: string): void => {
+    private _compareArrays (a: Array<unknown>, b: Array<unknown>, path: string): void {
         if (a.length !== b.length) {
             throw Error(`${path}: arrays have different length`);
         }
         a.forEach((item, index) => {
             this._deepEqualRec(item, b[index], `${path}[${index}]`);
         });
-    };
+    }
 
     /**
      * Compares two regular expressions for equality.
@@ -441,11 +443,11 @@ export class UnitTest {
      * @param path Path to the regular expression to compare.
      * @throws Throws a description of the difference including the path to the regular expression.
      */
-    private _compareRegex = (a: RegExp, b: RegExp, path: string): void => {
+    private _compareRegex (a: RegExp, b: RegExp, path: string): void {
         if (a.toString() !== b.toString()) {
             throw Error(`${path}: regular expressions are different: ${a} !== ${b}`);
         }
-    };
+    }
 
     /**
      * Compares two objects for equality, including nested objects and arrays.
@@ -454,7 +456,7 @@ export class UnitTest {
      * @param path Path to the object to compare.
      * @throws Throws a description of the difference including the path to the object.
      */
-    private _compareObjects = (a: Record<string, unknown>, b: Record<string, unknown>, path: string): void => {
+    private _compareObjects (a: Record<string, unknown>, b: Record<string, unknown>, path: string): void {
         const aKeys = Object.keys(a);
         const bKeys = Object.keys(b);
 
@@ -472,7 +474,7 @@ export class UnitTest {
         if (a.constructor.name !== b.constructor.name) {
             throw Error(`${path}: objects have different constructor names: ${a.constructor.name} !== ${b.constructor.name}`);
         }
-    };
+    }
 
     /**
     * Compares two objects deeply and logs results.
@@ -481,7 +483,7 @@ export class UnitTest {
     * @param message Optional message to display on results.
     * @returns True if objects are deeply equal, false otherwise.
     */
-    assertDeepEqual = (a: unknown, b: unknown, message: string = ''): boolean => {
+    assertDeepEqual (a: unknown, b: unknown, message: string = ''): boolean {
         let result = true;
         message = message || '';
         try {
@@ -493,7 +495,7 @@ export class UnitTest {
             result = false;
         }
         return result;
-    };
+    }
 
     /**
      * Asserts that two values are not deeply equal.
@@ -503,7 +505,7 @@ export class UnitTest {
      * @param message - An optional message to display if the assertion fails.
      * @returns `true` if the values are not deeply equal, `false` otherwise.
      */
-    assertDeepNotEqual = (a: unknown, b: unknown, message: string = ''): boolean => {
+    assertDeepNotEqual (a: unknown, b: unknown, message: string = ''): boolean {
         let result = true;
         message = message || '';
         try {
@@ -515,7 +517,7 @@ export class UnitTest {
             result = false;
         }
         return result;
-    };
+    }
 
     /**
      * Executes a function and checks for a thrown exception of a specific type.
@@ -524,7 +526,7 @@ export class UnitTest {
      * @param message Optional message to display on success or failure.
      * @returns True if the expected exception is thrown, false otherwise.
      */
-    expectException = (callback: () => void, expectedException: new (...args: unknown[]) => Error, message: string = ''): boolean => {
+    expectException (callback: () => void, expectedException: new (...args: unknown[]) => Error, message: string = ''): boolean {
         try {
             callback();
         } catch (err) {
@@ -544,25 +546,25 @@ export class UnitTest {
         }
         this.fail(`No exception was thrown. ${message}`);
         return false;
-    };
+    }
 
     /**
      * Logs a message if verbose mode is enabled.
      * @param message The message to log.
      */
-    log = (message: string): void => {
+    log (message: string): void {
         if (this._verbose) {
             console.log(message);
         }
-    };
+    }
 
     /**
      * Logs an error message or object if verbose mode is enabled.
      * @param error The error message or object to log.
      */
-    logError = (error: unknown): void => {
+    logError (error: unknown): void {
         if (this._verbose) {
             errorLog(error, this._debug);
         }
-    };
+    }
 }
