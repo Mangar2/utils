@@ -295,7 +295,7 @@ export class TestRun {
             files = [files];
         }
         for (const fileName of files) {
-            const fullFileName = `${directory}/${fileName}${extension ? `.${extension}` : ''}`;
+            const fullFileName = `${directory}/${fileName}${extension ? '.' + extension : ''}`;
             const fileUrl = pathToFileURL(fullFileName).href;
             if (this._parallel) {
                 promises.push(this._asyncRunFile(fileUrl));

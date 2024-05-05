@@ -120,6 +120,6 @@ export declare class Persist {
      * @param {string} filenameStart - The base name of the file to search for.
      * @returns {unknown | undefined} - The object read from the file, or undefined if an error occurred.
      */
-    readData(directory: string, filenameStart: string): unknown | undefined;
+    readData(directory: string, filenameStart: string): unknown;
 }
 export {};

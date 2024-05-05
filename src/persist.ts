@@ -96,7 +96,7 @@ export class Persist {
     */
     private static filterFiles (files: string[], filenameStart: string): string[] {
         const fileMatch = Persist.genFileMatch(filenameStart);
-        const filteredFiles = files.filter((filename) => filename.match(fileMatch));
+        const filteredFiles = files.filter((filename) => fileMatch.exec(filename));
         return filteredFiles;
     }
 
@@ -109,7 +109,7 @@ export class Persist {
      */
     static async readDir (directory: string): Promise<string[]> {
         return new Promise((resolve, reject) => {
-            fs.readdir(directory, (err, files) => {
+            fs.readdir(directory, (err: Error | null, files: string[]) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -128,7 +128,7 @@ export class Persist {
      */
     static async deleteFile (filePath: string): Promise<void> {
         return new Promise((resolve, reject) => {
-            fs.unlink(filePath, err => {
+            fs.unlink(filePath, (err: Error | null) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -147,7 +147,7 @@ export class Persist {
      */
     static async writeFile (fileAndPathName: string, data: string): Promise<void> {
         return new Promise((resolve, reject) => {
-            fs.writeFile(fileAndPathName, data, (err) => {
+            fs.writeFile(fileAndPathName, data, (err: Error | null) => {
                 if (err) {
                     reject(err);
                 } else {

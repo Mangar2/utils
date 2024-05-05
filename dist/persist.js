@@ -76,7 +76,7 @@ export class Persist {
     */
     static filterFiles(files, filenameStart) {
         const fileMatch = Persist.genFileMatch(filenameStart);
-        const filteredFiles = files.filter((filename) => filename.match(fileMatch));
+        const filteredFiles = files.filter((filename) => fileMatch.exec(filename));
         return filteredFiles;
     }
     /**
@@ -107,7 +107,7 @@ export class Persist {
      */
     static async deleteFile(filePath) {
         return new Promise((resolve, reject) => {
-            fs.unlink(filePath, err => {
+            fs.unlink(filePath, (err) => {
                 if (err) {
                     reject(err);
                 }
