@@ -93,7 +93,7 @@ export class Persist {
                     reject(err);
                 }
                 else {
-                    files.sort();
+                    files.sort((a, b) => a.localeCompare(b));
                     resolve(files);
                 }
             });

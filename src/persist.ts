@@ -113,7 +113,7 @@ export class Persist {
                 if (err) {
                     reject(err);
                 } else {
-                    files.sort();
+                    files.sort((a, b) => a.localeCompare(b));
                     resolve(files);
                 }
             });
