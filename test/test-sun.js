@@ -12,11 +12,11 @@
 
 import { sunrise, sunset, UnitTest } from '../dist/index.js';
 const VERBOSE = true;
-const DEBUG = false;
+const DEBUG = true;
 const unitTest = new UnitTest(VERBOSE, DEBUG);
 
-unitTest.assertEqual(sunrise(8.203454, 49.9048667, new Date('2020-1-27')).toLocaleString(), '27.1.2020, 08:07:52');
-unitTest.assertEqual(sunset(8.203454, 49.9048667, new Date('2020-1-27')).toLocaleString(), '27.1.2020, 17:12:48');
-unitTest.assertEqual(sunset(51.1788, -1.8262, new Date('2000-1-21')).toLocaleString(), '21.1.2000, 15:52:50');
+unitTest.assertEqual(sunrise(8.203454, 49.9048667, new Date('2020-1-27')).toISOString(), new Date('2020-01-27T07:07:52.529Z').toISOString());
+unitTest.assertEqual(sunset(8.203454, 49.9048667, new Date('2020-1-27')).toISOString(), new Date('2020-01-27T16:12:48.582Z').toISOString());
+unitTest.assertEqual(sunset(51.1788, -1.8262, new Date('2000-1-21')).toISOString(), new Date('2000-01-21T14:52:50.954Z').toISOString());
 
 export default () => unitTest.getResultFunctions(3);

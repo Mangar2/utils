@@ -23,6 +23,7 @@ export declare class TestRun {
     private _unitTest;
     private _testNo;
     private _parallel;
+    private _fileContent;
     constructor(verbose?: boolean, parallel?: boolean);
     on: (event: string, callback: (...args: unknown[]) => unknown) => void;
     get unitTest(): UnitTest;
@@ -83,12 +84,6 @@ export declare class TestRun {
      * @param testNo The specific test number to run, or null to run all tests.
      */
     private _runTestcase;
-    /**
-     * Asynchronously processes a test file, running all testcases contained within it.
-     * @param fileName The full path to the test file to be executed.
-     * @param testNo Optional number indicating a specific test to run and then stop; defaults to running all tests.
-     */
-    private _asyncRunFile;
     /**
      * Synchronously processes a test file, running all testcases contained within it.
      * @param fileName The full path to the test file to be executed.

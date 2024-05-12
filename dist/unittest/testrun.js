@@ -232,34 +232,27 @@ export class TestRun {
         this._callbacks.invokeCallback('cleanup', testObject);
     }
     /**
-     * Asynchronously processes a test file, running all testcases contained within it.
-     * @param fileName The full path to the test file to be executed.
-     * @param testNo Optional number indicating a specific test to run and then stop; defaults to running all tests.
-     */
-    async _asyncRunFile(fileName, testNo = null) {
-        const fileContent = await import(fileName); // Dynamic import of the JSON or module containing tests
-        this._unitTest.log('Processing ' + fileName);
-        const testcases = this.validateTestCases(fileContent.default ? fileContent.default : fileContent);
-        for (const testcase of testcases) {
-            const testcasePath = `${fileName}/${testcase.description}`;
-            await this._asyncRunTestcase(testcase, testcasePath, testNo);
-            if (testNo !== null && this._testNo >= testNo) {
-                break; // Stop further execution if the specific test number is reached
-            }
-        }
-    }
-    /**
      * Synchronously processes a test file, running all testcases contained within it.
      * @param fileName The full path to the test file to be executed.
      * @param testNo Optional number indicating a specific test to run and then stop; defaults to running all tests.
      */
-    async _runFile(fileName, testNo = null) {
-        const fileContent = await import(fileName); // Synchronous require to load the test file
+    async _runFile(fileName, useAsync, testNo = null) {
+        if (fileName !== null) {
+            this._fileContent = await import(fileName); // Dynamic import of the JSON or module containing tests
+        }
+        if (typeof this._fileContent !== 'object' || this._fileContent === null) {
+            return;
+        }
         this._unitTest.log('Processing ' + fileName);
-        const testcases = this.validateTestCases(fileContent.default ? fileContent.default : fileContent);
+        const testcases = this.validateTestCases('default' in this._fileContent ? this._fileContent.default : this._fileContent);
         for (const testcase of testcases) {
             const testcasePath = `${fileName}/${testcase.description}`;
-            this._runTestcase(testcase, testcasePath, testNo);
+            if (useAsync) {
+                await this._asyncRunTestcase(testcase, testcasePath, testNo);
+            }
+            else {
+                this._runTestcase(testcase, testcasePath, testNo);
+            }
             if (testNo !== null && this._testNo >= testNo) {
                 break; // Stop further execution if the specific test number is reached
             }
@@ -271,7 +264,7 @@ export class TestRun {
     async asyncRunAgain() {
         const testNo = this._testNo;
         this._testNo = 0; // Reset the test number before rerun
-        await this._asyncRunFile('rerun', testNo); // Assumes the test data is appropriately set to rerun the specific test case
+        await this._runFile(null, true, testNo); // Assumes the test data is appropriately set to rerun the specific test case
     }
     /**
      * Synchronously reruns the last test case, typically used for debugging. It resets the test count and reruns the test file synchronously using the last test number.
@@ -279,7 +272,7 @@ export class TestRun {
     runAgain() {
         const testNo = this._testNo;
         this._testNo = 0; // Reset the test number before rerun
-        this._runFile('rerun', testNo); // Assumes the test data is appropriately set to rerun the specific test case
+        this._runFile(null, false, testNo); // Assumes the test data is appropriately set to rerun the specific test case
     }
     /**
      * Asynchronously runs tests based on JSON files specified. It handles loading of test files, execution of test cases, and aggregation of results.
@@ -298,10 +291,10 @@ export class TestRun {
             const fullFileName = `${directory}/${fileName}${extension ? '.' + extension : ''}`;
             const fileUrl = pathToFileURL(fullFileName).href;
             if (this._parallel) {
-                promises.push(this._asyncRunFile(fileUrl));
+                promises.push(this._runFile(fileUrl, true));
             }
             else {
-                await this._asyncRunFile(fileUrl);
+                await this._runFile(fileUrl, true);
             }
         }
         await Promise.all(promises);
@@ -321,9 +314,9 @@ export class TestRun {
             files = [files];
         }
         for (const fileName of files) {
-            const fullFileName = `${directory}\\${fileName}${extension ? '.' + extension : ''}`;
+            const fullFileName = `${directory}/${fileName}${extension ? '.' + extension : ''}`;
             const fileUrl = pathToFileURL(fullFileName).href;
-            await this._runFile(fileUrl);
+            await this._runFile(fileUrl, false);
         }
         console.log('All tests completed.');
         return this._unitTest.getResultFunctions(expectedAmount);

@@ -1,8 +1,9 @@
 {
   "name": "@mangar2/utils",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Combines JavaScript utilities",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
@@ -10,15 +11,15 @@
     "cover": "c8 node test/test.js",
     "lint": "eslint --ext .js,.ts */**",
     "lint:fix": "eslint --fix --ext .js,.ts */**",
-    "prepublishOnly": "npm run build && npm run lint && npm test && npm run doku"
+    "prepublishOnly": "npm run build && npm run lint && npm test"
   },
   "keywords": [],
   "author": "Volker Böhm",
   "license": "LGPL-3.0-or-later",
-  "homepage": "https://github.com/Mangar2/yaha.git",
+  "homepage": "https://github.com/Mangar2/utils",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Mangar2/yaha/node_modules/@mangar2/utils"
+    "url": "https://github.com/Mangar2/utils"
   },
   "devDependencies": {
     "@types/node": "20.10.5",
