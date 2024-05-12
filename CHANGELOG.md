@@ -1,6 +1,6 @@
 # change log for utils
 
-## 2.0.1 2024-05-12 bugfix
+## 2.0.2 2024-05-12 bugfix
 
 - Fixed the runagain feature in testrun 
 - Fixed a localization problem in testcases of "sun"

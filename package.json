@@ -1,13 +1,13 @@
 {
   "name": "@mangar2/utils",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Combines JavaScript utilities",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
-    "test": "tsc && node test/test.js",
+    "test": "node test/test.js",
     "cover": "c8 node test/test.js",
     "lint": "eslint --ext .js,.ts */**",
     "lint:fix": "eslint --fix --ext .js,.ts */**",
